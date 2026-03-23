@@ -128,8 +128,13 @@ const appStore = useAppStore()
 const user = computed(() => authStore.user)
 const contactInfo = ref('')
 const checkinStatus = ref<{
+  enabled: boolean
   checked_in: boolean
   reward_amount: number
+  base_reward_amount: number
+  consecutive_days: number
+  next_reward_amount: number
+  timezone: string
   today: string
   checked_in_at?: string
 } | null>(null)

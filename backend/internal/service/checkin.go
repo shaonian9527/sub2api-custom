@@ -344,7 +344,7 @@ func (s *RedeemService) GetCheckinHistory(ctx context.Context, userID int64, pag
 	if pageSize <= 0 {
 		pageSize = 20
 	}
-	params := pagination.NewPaginationParams(page, pageSize)
+	params := pagination.PaginationParams{Page: page, PageSize: pageSize}
 	items, result, err := s.redeemRepo.ListByUserPaginated(ctx, userID, params, RedeemTypeBalance)
 	if err != nil {
 		return nil, nil, fmt.Errorf("get checkin history: %w", err)
