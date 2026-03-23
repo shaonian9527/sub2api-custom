@@ -102,9 +102,12 @@ docker compose -f docker-compose.local.yml logs -f sub2api
 | Version | Data Storage | Migration | Best For |
 |---------|-------------|-----------|----------|
 | **docker-compose.local.yml** | Local directories (./data, ./postgres_data, ./redis_data) | ✅ Easy (tar entire directory) | Production, need frequent backups/migration |
+| **docker-compose.workspace.yml** | Local directories + local source build | ✅ Easy | Custom source deployment / local feature validation |
 | **docker-compose.yml** | Named volumes (/var/lib/docker/volumes/) | ⚠️ Requires docker commands | Simple setup, don't need migration |
 
-**Recommendation:** Use `docker-compose.local.yml` (deployed by `docker-deploy.sh`) for easier data management and migration.
+**Recommendation:**
+- Use `docker-compose.local.yml` for standard production deployment based on the official image.
+- Use `docker-compose.workspace.yml` when you want the server to run the source code currently checked out in your repository.
 
 ### How Auto-Setup Works
 

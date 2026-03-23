@@ -292,6 +292,27 @@ pnpm dev
 pnpm build
 ```
 
+### 本地源码部署（Docker）
+
+当你要验证本地自定义代码，而不是运行官方镜像时，使用：
+
+```bash
+cd deploy
+docker-compose -f docker-compose.workspace.yml --env-file .env up -d --build
+```
+
+检查当前运行镜像：
+
+```bash
+docker inspect sub2api --format '{{.Config.Image}}'
+```
+
+期望输出：
+
+```bash
+sub2api-local:checkin
+```
+
 ### 后端操作
 
 ```bash

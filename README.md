@@ -2,7 +2,7 @@
 
 <div align="center">
 
-[![Go](https://img.shields.io/badge/Go-1.25.7-00ADD8.svg)](https://golang.org/)
+[![Go](https://img.shields.io/badge/Go-1.26.1-00ADD8.svg)](https://golang.org/)
 [![Vue](https://img.shields.io/badge/Vue-3.4+-4FC08D.svg)](https://vuejs.org/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15+-336791.svg)](https://www.postgresql.org/)
 [![Redis](https://img.shields.io/badge/Redis-7+-DC382D.svg)](https://redis.io/)
@@ -259,12 +259,15 @@ docker compose -f docker-compose.local.yml logs -f sub2api
 
 #### Deployment Versions
 
-| Version | Data Storage | Migration | Best For |
-|---------|-------------|-----------|----------|
-| **docker-compose.local.yml** | Local directories | ✅ Easy (tar entire directory) | Production, frequent backups |
-| **docker-compose.yml** | Named volumes | ⚠️ Requires docker commands | Simple setup |
+| Version | Data Storage | Image Source | Best For |
+|---------|-------------|--------------|----------|
+| **docker-compose.local.yml** | Local directories | Official image `weishaw/sub2api:latest` | Standard production deployment |
+| **docker-compose.workspace.yml** | Local directories | Local source build → `sub2api-local:checkin` | Local development / custom feature validation |
+| **docker-compose.yml** | Named volumes | Official image | Simple setup |
 
-**Recommendation:** Use `docker-compose.local.yml` (deployed by script) for easier data management.
+**Recommendation:**
+- Use `docker-compose.local.yml` for normal production deployment based on the upstream/official image.
+- Use `docker-compose.workspace.yml` when you need to run **your current local source code** instead of the official image.
 
 #### Access
 
@@ -282,6 +285,35 @@ docker compose -f docker-compose.local.yml logs sub2api | grep "admin password"
 docker compose -f docker-compose.local.yml pull
 docker compose -f docker-compose.local.yml up -d
 ```
+
+#### Deploy Your Own Source Version (Recommended for custom modifications)
+
+If you maintain your own fork (for example after adding custom features), deploy from your GitHub repository instead of relying on the official image.
+
+```bash
+# On the target server
+git clone git@github.com:YOUR_NAME/YOUR_SUB2API_FORK.git
+cd YOUR_SUB2API_FORK/deploy
+cp .env.example .env
+mkdir -p data postgres_data redis_data
+
+# Build and run from your source tree
+docker-compose -f docker-compose.workspace.yml --env-file .env up -d --build
+```
+
+Verify that the running container is using your locally built image instead of the upstream official image:
+
+```bash
+docker inspect sub2api --format '{{.Config.Image}}'
+```
+
+Expected output for local-source deployment:
+
+```bash
+sub2api-local:checkin
+```
+
+If you see `weishaw/sub2api:latest`, you are still running the official image and your local source changes are **not** being used.
 
 #### Easy Migration (Local Directory Version)
 
@@ -583,3 +615,4 @@ MIT License
 **If you find this project useful, please give it a star!**
 
 </div>
+>
