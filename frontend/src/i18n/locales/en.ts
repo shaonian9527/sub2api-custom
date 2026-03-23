@@ -834,6 +834,15 @@ export default {
     passwordTooShort: 'Password must be at least 8 characters long',
     passwordChangeSuccess: 'Password changed successfully',
     passwordChangeFailed: 'Failed to change password',
+    dailyCheckin: 'Daily Check-in',
+    checkinHint: 'Check in today to get {amount} bonus balance',
+    checkedInToday: 'You have already checked in today',
+    checkedInAt: 'Checked in at',
+    checkinNow: 'Check in now',
+    checkingIn: 'Checking in...',
+    alreadyCheckedIn: 'Checked in today',
+    checkinSuccess: 'Check-in successful. {amount} has been added',
+    checkinFailed: 'Check-in failed. Please try again later',
     // TOTP 2FA
     totp: {
       title: 'Two-Factor Authentication (2FA)',

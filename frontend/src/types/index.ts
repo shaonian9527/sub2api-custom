@@ -36,6 +36,7 @@ export interface User {
   subscriptions?: UserSubscription[] // User's active subscriptions
   created_at: string
   updated_at: string
+  last_checkin_at?: string
 }
 
 export interface AdminUser extends User {

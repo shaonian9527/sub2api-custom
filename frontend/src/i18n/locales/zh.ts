@@ -839,6 +839,15 @@ export default {
     passwordTooShort: '密码至少需要 8 个字符',
     passwordChangeSuccess: '密码修改成功',
     passwordChangeFailed: '密码修改失败',
+    dailyCheckin: '每日签到',
+    checkinHint: '今日签到可领取 {amount} 余额奖励',
+    checkedInToday: '今天已经签过到了',
+    checkedInAt: '签到时间',
+    checkinNow: '立即签到',
+    checkingIn: '签到中...',
+    alreadyCheckedIn: '今日已签到',
+    checkinSuccess: '签到成功，已到账 {amount}',
+    checkinFailed: '签到失败，请稍后重试',
     // TOTP 2FA
     totp: {
       title: '双因素认证 (2FA)',
