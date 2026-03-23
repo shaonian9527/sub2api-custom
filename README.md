@@ -102,7 +102,7 @@ One-click installation script that downloads pre-built binaries from GitHub Rele
 #### Installation Steps
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/Wei-Shaw/sub2api/main/deploy/install.sh | sudo bash
+curl -sSL https://raw.githubusercontent.com/shaonian9527/sub2api-custom/main/deploy/install.sh | sudo bash
 ```
 
 The script will:
@@ -152,7 +152,7 @@ sudo journalctl -u sub2api -f
 sudo systemctl restart sub2api
 
 # Uninstall
-curl -sSL https://raw.githubusercontent.com/Wei-Shaw/sub2api/main/deploy/install.sh | sudo bash -s -- uninstall -y
+curl -sSL https://raw.githubusercontent.com/shaonian9527/sub2api-custom/main/deploy/install.sh | sudo bash -s -- uninstall -y
 ```
 
 ---
@@ -595,11 +595,11 @@ sub2api/
 
 ## Star History
 
-<a href="https://star-history.com/#Wei-Shaw/sub2api&Date">
+<a href="https://star-history.com/#shaonian9527/sub2api-custom&Date">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=Wei-Shaw/sub2api&type=Date&theme=dark" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=Wei-Shaw/sub2api&type=Date" />
-   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=Wei-Shaw/sub2api&type=Date" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=shaonian9527/sub2api-custom&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=shaonian9527/sub2api-custom&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=shaonian9527/sub2api-custom&type=Date" />
  </picture>
 </a>
 
