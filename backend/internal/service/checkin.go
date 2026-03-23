@@ -47,13 +47,17 @@ func buildDailyCheckinCode(userID int64, day string) string {
 func (s *RedeemService) GetCheckinStatus(ctx context.Context, userID int64) (*CheckinStatus, error) {
 	day := utcDayString(time.Now())
 	code := buildDailyCheckinCode(userID, day)
+	rewardAmount := DailyCheckinReward
+	if s.settingService != nil {
+		rewardAmount = s.settingService.GetDailyCheckinReward(ctx)
+	}
 
 	redeemCode, err := s.redeemRepo.GetByCode(ctx, code)
 	if err != nil {
 		if err == ErrRedeemCodeNotFound {
 			return &CheckinStatus{
 				CheckedIn:    false,
-				RewardAmount: DailyCheckinReward,
+				RewardAmount: rewardAmount,
 				Today:        day,
 			}, nil
 		}
@@ -62,7 +66,7 @@ func (s *RedeemService) GetCheckinStatus(ctx context.Context, userID int64) (*Ch
 
 	status := &CheckinStatus{
 		CheckedIn:    redeemCode.Status == StatusUsed,
-		RewardAmount: DailyCheckinReward,
+		RewardAmount: rewardAmount,
 		Today:        day,
 	}
 	if redeemCode.UsedAt != nil {
@@ -85,6 +89,10 @@ func (s *RedeemService) GetCheckinStatus(ctx context.Context, userID int64) (*Ch
 func (s *RedeemService) Checkin(ctx context.Context, userID int64) (*CheckinResult, error) {
 	day := utcDayString(time.Now())
 	code := buildDailyCheckinCode(userID, day)
+	rewardAmount := DailyCheckinReward
+	if s.settingService != nil {
+		rewardAmount = s.settingService.GetDailyCheckinReward(ctx)
+	}
 
 	if existing, err := s.redeemRepo.GetByCode(ctx, code); err == nil {
 		if existing.Status == StatusUsed {
@@ -97,7 +105,7 @@ func (s *RedeemService) Checkin(ctx context.Context, userID int64) (*CheckinResu
 	createErr := s.redeemRepo.Create(ctx, &RedeemCode{
 		Code:   code,
 		Type:   RedeemTypeBalance,
-		Value:  DailyCheckinReward,
+		Value:  rewardAmount,
 		Status: StatusUnused,
 		Notes:  DailyCheckinNote,
 	})
@@ -125,7 +133,7 @@ func (s *RedeemService) Checkin(ctx context.Context, userID int64) (*CheckinResu
 
 	return &CheckinResult{
 		Message:      "checkin successful",
-		RewardAmount: DailyCheckinReward,
+		RewardAmount: rewardAmount,
 		NewBalance:   user.Balance,
 		Today:        day,
 		CheckedInAt:  checkedInAt,

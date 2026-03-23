@@ -4294,6 +4294,8 @@ export default {
         defaultBalanceHint: '新用户的初始余额',
         defaultConcurrency: '默认并发数',
         defaultConcurrencyHint: '新用户的最大并发请求数',
+        dailyCheckinReward: '每日签到金额',
+        dailyCheckinRewardHint: '用户每日签到可获得的余额奖励，设为 0 则相当于仅保留签到动作不送钱',
         defaultSubscriptions: '默认订阅列表',
         defaultSubscriptionsHint: '新用户创建或注册时自动分配这些订阅',
         addDefaultSubscription: '添加默认订阅',

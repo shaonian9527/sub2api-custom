@@ -4128,6 +4128,8 @@ export default {
         defaultBalanceHint: 'Initial balance for new users',
         defaultConcurrency: 'Default Concurrency',
         defaultConcurrencyHint: 'Maximum concurrent requests for new users',
+        dailyCheckinReward: 'Daily Check-in Reward',
+        dailyCheckinRewardHint: 'Balance reward granted for daily check-in. Set to 0 to keep check-in without granting money.',
         defaultSubscriptions: 'Default Subscriptions',
         defaultSubscriptionsHint: 'Auto-assign these subscriptions when a new user is created or registered',
         addDefaultSubscription: 'Add Default Subscription',

@@ -123,6 +123,7 @@ const (
 	// 默认配置
 	SettingKeyDefaultConcurrency   = "default_concurrency"   // 新用户默认并发量
 	SettingKeyDefaultBalance       = "default_balance"       // 新用户默认余额
+	SettingKeyDailyCheckinReward   = "daily_checkin_reward"  // 每日签到奖励金额
 	SettingKeyDefaultSubscriptions = "default_subscriptions" // 新用户默认订阅列表（JSON）
 
 	// 管理员 API Key

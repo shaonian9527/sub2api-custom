@@ -46,6 +46,7 @@ type SystemSettings struct {
 
 	DefaultConcurrency   int
 	DefaultBalance       float64
+	DailyCheckinReward   float64
 	DefaultSubscriptions []DefaultSubscriptionSetting
 
 	// Model fallback configuration

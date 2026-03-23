@@ -59,6 +59,7 @@ type SystemSettings struct {
 
 	DefaultConcurrency   int                          `json:"default_concurrency"`
 	DefaultBalance       float64                      `json:"default_balance"`
+	DailyCheckinReward   float64                      `json:"daily_checkin_reward"`
 	DefaultSubscriptions []DefaultSubscriptionSetting `json:"default_subscriptions"`
 
 	// Model fallback configuration
