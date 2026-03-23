@@ -65,33 +65,35 @@ docker compose -f docker-compose.local.yml logs sub2api | grep "admin password"
 # http://localhost:8080
 ```
 
-### Method 2: Manual Deployment
+### Method 2: Manual Deployment from Your GitHub Source Repository
 
-If you prefer manual control:
+If you want the target server to run **your modified source code**, use this method.
 
 ```bash
-# Clone repository
-git clone https://github.com/Wei-Shaw/sub2api.git
-cd sub2api/deploy
+# Clone your source repository
+git clone git@github.com:shaonian9527/sub2api-custom.git
+cd sub2api-custom/deploy
 
 # Configure environment
 cp .env.example .env
-nano .env  # Set POSTGRES_PASSWORD and other required variables
+nano .env
 
 # Generate secure secrets (recommended)
 JWT_SECRET=$(openssl rand -hex 32)
 TOTP_ENCRYPTION_KEY=$(openssl rand -hex 32)
-echo "JWT_SECRET=${JWT_SECRET}" >> .env
-echo "TOTP_ENCRYPTION_KEY=${TOTP_ENCRYPTION_KEY}" >> .env
+POSTGRES_PASSWORD=$(openssl rand -hex 32)
+
+# Update .env manually with the generated values
 
 # Create data directories
 mkdir -p data postgres_data redis_data
 
-# Start all services using local directory version
-docker compose -f docker-compose.local.yml up -d
+# Build and start from local source
+# Prefer docker-compose.workspace.yml for local source builds / custom feature validation
+docker-compose -f docker-compose.workspace.yml --env-file .env up -d --build
 
-# View logs (check for auto-generated admin password)
-docker compose -f docker-compose.local.yml logs -f sub2api
+# View logs
+docker-compose -f docker-compose.workspace.yml --env-file .env logs -f sub2api
 
 # Access Web UI
 # http://localhost:8080

@@ -157,57 +157,55 @@ curl -sSL https://raw.githubusercontent.com/Wei-Shaw/sub2api/main/deploy/install
 
 ---
 
-### Method 2: Docker Compose (Recommended)
+### Method 2: Docker Compose from Your Source Repository (Recommended)
 
-Deploy with Docker Compose, including PostgreSQL and Redis containers.
+This project is now primarily documented for **source-based deployment from your own GitHub repository**, not just running the upstream official image.
+
+Deploy with Docker Compose, PostgreSQL, and Redis, while building the application image directly from the checked-out source tree.
 
 #### Prerequisites
 
 - Docker 20.10+
-- Docker Compose v2+
+- `docker compose` or legacy `docker-compose`
+- Git access to your repository (recommended: SSH)
 
-#### Quick Start (One-Click Deployment)
+#### Recommended Repository
 
-Use the automated deployment script for easy setup:
+Clone **your own fork/custom repository** on the target server:
 
 ```bash
-# Create deployment directory
-mkdir -p sub2api-deploy && cd sub2api-deploy
-
-# Download and run deployment preparation script
-curl -sSL https://raw.githubusercontent.com/Wei-Shaw/sub2api/main/deploy/docker-deploy.sh | bash
-
-# Start services
-docker compose up -d
-
-# View logs
-docker compose logs -f sub2api
+git clone git@github.com:shaonian9527/sub2api-custom.git
+cd sub2api-custom/deploy
 ```
 
-**What the script does:**
-- Downloads `docker-compose.local.yml` (saved as `docker-compose.yml`) and `.env.example`
-- Generates secure credentials (JWT_SECRET, TOTP_ENCRYPTION_KEY, POSTGRES_PASSWORD)
-- Creates `.env` file with auto-generated secrets
-- Creates data directories (uses local directories for easy backup/migration)
-- Displays generated credentials for your reference
+If you are maintaining another fork, replace the repository URL accordingly.
 
-#### Manual Deployment
-
-If you prefer manual setup:
+#### Quick Start (Recommended)
 
 ```bash
-# 1. Clone the repository
-git clone https://github.com/Wei-Shaw/sub2api.git
-cd sub2api/deploy
+# 1. Clone your source repository
+git clone git@github.com:shaonian9527/sub2api-custom.git
+cd sub2api-custom/deploy
 
 # 2. Copy environment configuration
 cp .env.example .env
 
-# 3. Edit configuration (generate secure passwords)
+# 3. Edit configuration
 nano .env
+
+# 4. Create local data directories
+mkdir -p data postgres_data redis_data
+
+# 5. Build and start from local source code
+docker-compose -f docker-compose.workspace.yml --env-file .env up -d --build
+
+# 6. View logs
+docker-compose -f docker-compose.workspace.yml --env-file .env logs -f sub2api
 ```
 
-**Required configuration in `.env`:**
+#### Required configuration in `.env`
+
+At minimum, set these values:
 
 ```bash
 # PostgreSQL password (REQUIRED)
@@ -223,39 +221,43 @@ TOTP_ENCRYPTION_KEY=your_totp_key_here
 ADMIN_EMAIL=admin@example.com
 ADMIN_PASSWORD=your_admin_password
 
-# Optional: Custom port
+# Optional: Bind host / port
+BIND_HOST=0.0.0.0
 SERVER_PORT=8080
+
+# Recommended timezone
+TZ=Asia/Shanghai
 ```
 
-**Generate secure secrets:**
-```bash
-# Generate JWT_SECRET
-openssl rand -hex 32
-
-# Generate TOTP_ENCRYPTION_KEY
-openssl rand -hex 32
-
-# Generate POSTGRES_PASSWORD
-openssl rand -hex 32
-```
+#### Generate secure secrets
 
 ```bash
-# 4. Create data directories (for local version)
-mkdir -p data postgres_data redis_data
-
-# 5. Start all services
-# Option A: Local directory version (recommended - easy migration)
-docker compose -f docker-compose.local.yml up -d
-
-# Option B: Named volumes version (simple setup)
-docker compose up -d
-
-# 6. Check status
-docker compose -f docker-compose.local.yml ps
-
-# 7. View logs
-docker compose -f docker-compose.local.yml logs -f sub2api
+openssl rand -hex 32   # JWT_SECRET
+openssl rand -hex 32   # TOTP_ENCRYPTION_KEY
+openssl rand -hex 32   # POSTGRES_PASSWORD
 ```
+
+#### Verify that you are really running your local source build
+
+After startup, run:
+
+```bash
+docker inspect sub2api --format '{{.Config.Image}}'
+```
+
+Expected output:
+
+```bash
+sub2api-local:checkin
+```
+
+If you instead see:
+
+```bash
+weishaw/sub2api:latest
+```
+
+then you are running the upstream official image and your local source changes are **not** being used.
 
 #### Deployment Versions
 
@@ -353,41 +355,40 @@ rm -rf data/ postgres_data/ redis_data/
 
 ---
 
-### Method 3: Build from Source
+### Method 3: Build and Run from Source (Manual / No Docker)
 
-Build and run from source code for development or customization.
+Use this when you want to run the project directly from source code for development, debugging, or highly customized deployment.
 
 #### Prerequisites
 
-- Go 1.21+
-- Node.js 18+
+- Go 1.26.1+
+- Node.js 22+
+- pnpm 10+
 - PostgreSQL 15+
 - Redis 7+
 
 #### Build Steps
 
 ```bash
-# 1. Clone the repository
-git clone https://github.com/Wei-Shaw/sub2api.git
-cd sub2api
+# 1. Clone your repository
+git clone git@github.com:shaonian9527/sub2api-custom.git
+cd sub2api-custom
 
-# 2. Install pnpm (if not already installed)
-npm install -g pnpm
-
-# 3. Build frontend
+# 2. Build frontend
 cd frontend
 pnpm install
 pnpm run build
 # Output will be in ../backend/internal/web/dist/
 
-# 4. Build backend with embedded frontend
+# 3. Build backend with embedded frontend
 cd ../backend
+export PATH=/usr/local/go/bin:$PATH
 go build -tags embed -o sub2api ./cmd/server
 
-# 5. Create configuration file
+# 4. Create configuration file
 cp ../deploy/config.example.yaml ./config.yaml
 
-# 6. Edit configuration
+# 5. Edit configuration
 nano config.yaml
 ```
 
