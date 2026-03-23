@@ -332,6 +332,7 @@ export default {
     apiKeys: 'API Keys',
     usage: 'Usage',
     redeem: 'Redeem',
+    checkinHistory: 'Check-in History',
     profile: 'Profile',
     users: 'Users',
     groups: 'Groups',
@@ -835,9 +836,14 @@ export default {
     passwordChangeSuccess: 'Password changed successfully',
     passwordChangeFailed: 'Failed to change password',
     dailyCheckin: 'Daily Check-in',
-    checkinHint: 'Check in today to get {amount} bonus balance',
+    checkinHint: 'Check in today to receive about {amount} bonus balance',
     checkedInToday: 'You have already checked in today',
     checkedInAt: 'Checked in at',
+    checkinTimezone: 'Timezone',
+    currentStreak: 'Current streak: {days} day(s)',
+    baseReward: 'Base reward: {amount}',
+    nextReward: 'Current/next reward: {amount}',
+    viewCheckinHistory: 'View check-in history',
     checkinNow: 'Check in now',
     checkingIn: 'Checking in...',
     alreadyCheckedIn: 'Checked in today',
@@ -882,6 +888,16 @@ export default {
       codeSent: 'Verification code sent to your email',
       sendCodeFailed: 'Failed to send verification code'
     }
+  },
+
+  checkinHistory: {
+    title: 'Check-in History',
+    description: 'View daily check-ins, streaks, and reward details',
+    empty: 'No check-in history yet',
+    checkedInAt: 'Checked in at',
+    streakDays: 'Streak {days} day(s)',
+    rewardBreakdown: 'Base {base} / Bonus {bonus}',
+    loadFailed: 'Failed to load check-in history'
   },
 
   // Empty States
@@ -4128,8 +4144,9 @@ export default {
         defaultBalanceHint: 'Initial balance for new users',
         defaultConcurrency: 'Default Concurrency',
         defaultConcurrencyHint: 'Maximum concurrent requests for new users',
+        dailyCheckinEnabled: 'Enable Daily Check-in',
         dailyCheckinReward: 'Daily Check-in Reward',
-        dailyCheckinRewardHint: 'Balance reward granted for daily check-in. Set to 0 to keep check-in without granting money.',
+        dailyCheckinRewardHint: 'Base balance reward granted for daily check-in. Consecutive check-ins can add extra bonus on top. Set to 0 to keep the action without granting money.',
         defaultSubscriptions: 'Default Subscriptions',
         defaultSubscriptionsHint: 'Auto-assign these subscriptions when a new user is created or registered',
         addDefaultSubscription: 'Add Default Subscription',

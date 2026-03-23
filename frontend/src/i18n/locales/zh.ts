@@ -332,6 +332,7 @@ export default {
     apiKeys: 'API 密钥',
     usage: '使用记录',
     redeem: '兑换',
+    checkinHistory: '签到记录',
     profile: '个人资料',
     users: '用户管理',
     groups: '分组管理',
@@ -840,9 +841,14 @@ export default {
     passwordChangeSuccess: '密码修改成功',
     passwordChangeFailed: '密码修改失败',
     dailyCheckin: '每日签到',
-    checkinHint: '今日签到可领取 {amount} 余额奖励',
+    checkinHint: '今日签到预计可领取 {amount} 余额奖励',
     checkedInToday: '今天已经签过到了',
     checkedInAt: '签到时间',
+    checkinTimezone: '签到时区',
+    currentStreak: '当前连续签到 {days} 天',
+    baseReward: '基础奖励：{amount}',
+    nextReward: '本次/下次奖励：{amount}',
+    viewCheckinHistory: '查看签到记录',
     checkinNow: '立即签到',
     checkingIn: '签到中...',
     alreadyCheckedIn: '今日已签到',
@@ -887,6 +893,16 @@ export default {
       codeSent: '验证码已发送到您的邮箱',
       sendCodeFailed: '发送验证码失败'
     }
+  },
+
+  checkinHistory: {
+    title: '签到记录',
+    description: '查看每日签到、连续签到和奖励明细',
+    empty: '还没有签到记录',
+    checkedInAt: '签到时间',
+    streakDays: '连续 {days} 天',
+    rewardBreakdown: '基础 {base} / 额外 {bonus}',
+    loadFailed: '加载签到记录失败'
   },
 
   // Empty States
@@ -4294,8 +4310,9 @@ export default {
         defaultBalanceHint: '新用户的初始余额',
         defaultConcurrency: '默认并发数',
         defaultConcurrencyHint: '新用户的最大并发请求数',
+        dailyCheckinEnabled: '启用每日签到',
         dailyCheckinReward: '每日签到金额',
-        dailyCheckinRewardHint: '用户每日签到可获得的余额奖励，设为 0 则相当于仅保留签到动作不送钱',
+        dailyCheckinRewardHint: '用户每日签到可获得的基础余额奖励；连续签到会在此基础上叠加额外奖励。设为 0 也可仅保留签到动作。',
         defaultSubscriptions: '默认订阅列表',
         defaultSubscriptionsHint: '新用户创建或注册时自动分配这些订阅',
         addDefaultSubscription: '添加默认订阅',

@@ -1007,6 +1007,10 @@
                 <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
                   {{ t('admin.settings.defaults.dailyCheckinReward') }}
                 </label>
+                <div class="mb-2 flex items-center justify-between rounded border border-gray-200 px-3 py-2 dark:border-dark-600">
+                  <span class="text-sm text-gray-700 dark:text-gray-300">{{ t('admin.settings.defaults.dailyCheckinEnabled') }}</span>
+                  <Toggle v-model="form.daily_checkin_enabled" />
+                </div>
                 <input
                   v-model.number="form.daily_checkin_reward"
                   type="number"
@@ -1014,6 +1018,7 @@
                   min="0"
                   class="input"
                   placeholder="1.00"
+                  :disabled="!form.daily_checkin_enabled"
                 />
                 <p class="mt-1.5 text-xs text-gray-500 dark:text-gray-400">
                   {{ t('admin.settings.defaults.dailyCheckinRewardHint') }}
@@ -1947,6 +1952,7 @@ const form = reactive<SettingsForm>({
   totp_encryption_key_configured: false,
   default_balance: 0,
   default_concurrency: 1,
+  daily_checkin_enabled: true,
   daily_checkin_reward: 1,
   default_subscriptions: [],
   site_name: 'Sub2API',
@@ -2227,6 +2233,7 @@ async function saveSettings() {
       totp_enabled: form.totp_enabled,
       default_balance: form.default_balance,
       default_concurrency: form.default_concurrency,
+      daily_checkin_enabled: form.daily_checkin_enabled,
       daily_checkin_reward: form.daily_checkin_reward,
       default_subscriptions: normalizedDefaultSubscriptions,
       site_name: form.site_name,

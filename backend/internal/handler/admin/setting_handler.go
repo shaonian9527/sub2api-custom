@@ -112,6 +112,7 @@ func (h *SettingHandler) GetSettings(c *gin.Context) {
 		CustomMenuItems:                      dto.ParseCustomMenuItems(settings.CustomMenuItems),
 		DefaultConcurrency:                   settings.DefaultConcurrency,
 		DefaultBalance:                       settings.DefaultBalance,
+		DailyCheckinEnabled:                  settings.DailyCheckinEnabled,
 		DailyCheckinReward:                   settings.DailyCheckinReward,
 		DefaultSubscriptions:                 defaultSubscriptions,
 		EnableModelFallback:                  settings.EnableModelFallback,
@@ -181,6 +182,7 @@ type UpdateSettingsRequest struct {
 	// 默认配置
 	DefaultConcurrency   int                              `json:"default_concurrency"`
 	DefaultBalance       float64                          `json:"default_balance"`
+	DailyCheckinEnabled  bool                             `json:"daily_checkin_enabled"`
 	DailyCheckinReward   float64                          `json:"daily_checkin_reward"`
 	DefaultSubscriptions []dto.DefaultSubscriptionSetting `json:"default_subscriptions"`
 
@@ -502,6 +504,7 @@ func (h *SettingHandler) UpdateSettings(c *gin.Context) {
 		CustomMenuItems:                  customMenuJSON,
 		DefaultConcurrency:               req.DefaultConcurrency,
 		DefaultBalance:                   req.DefaultBalance,
+		DailyCheckinEnabled:              req.DailyCheckinEnabled,
 		DailyCheckinReward:               req.DailyCheckinReward,
 		DefaultSubscriptions:             defaultSubscriptions,
 		EnableModelFallback:              req.EnableModelFallback,
@@ -600,6 +603,7 @@ func (h *SettingHandler) UpdateSettings(c *gin.Context) {
 		CustomMenuItems:                      dto.ParseCustomMenuItems(updatedSettings.CustomMenuItems),
 		DefaultConcurrency:                   updatedSettings.DefaultConcurrency,
 		DefaultBalance:                       updatedSettings.DefaultBalance,
+		DailyCheckinEnabled:                  updatedSettings.DailyCheckinEnabled,
 		DailyCheckinReward:                   updatedSettings.DailyCheckinReward,
 		DefaultSubscriptions:                 updatedDefaultSubscriptions,
 		EnableModelFallback:                  updatedSettings.EnableModelFallback,
@@ -731,6 +735,9 @@ func diffSettings(before *service.SystemSettings, after *service.SystemSettings,
 	}
 	if before.DefaultBalance != after.DefaultBalance {
 		changed = append(changed, "default_balance")
+	}
+	if before.DailyCheckinEnabled != after.DailyCheckinEnabled {
+		changed = append(changed, "daily_checkin_enabled")
 	}
 	if before.DailyCheckinReward != after.DailyCheckinReward {
 		changed = append(changed, "daily_checkin_reward")

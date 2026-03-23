@@ -22,49 +22,65 @@
         />
       </div>
 
-      <div class="card p-6">
-        <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-              {{ t('profile.dailyCheckin') }}
-            </h3>
-            <p class="mt-1 text-sm text-gray-500 dark:text-dark-400">
-              {{
-                checkinStatus?.checked_in
-                  ? t('profile.checkedInToday')
-                  : t('profile.checkinHint', { amount: checkinRewardText })
-              }}
-            </p>
-            <p
-              v-if="checkinStatus?.checked_in_at"
-              class="mt-2 text-xs text-gray-400 dark:text-dark-500"
+      <div class="card p-6" v-if="checkinStatus?.enabled !== false">
+        <div class="flex flex-col gap-4">
+          <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                {{ t('profile.dailyCheckin') }}
+              </h3>
+              <p class="mt-1 text-sm text-gray-500 dark:text-dark-400">
+                {{
+                  checkinStatus?.checked_in
+                    ? t('profile.checkedInToday')
+                    : t('profile.checkinHint', { amount: checkinRewardText })
+                }}
+              </p>
+              <p class="mt-2 text-xs text-gray-400 dark:text-dark-500">
+                {{ t('profile.checkinTimezone') }}: {{ checkinStatus?.timezone || 'Asia/Shanghai' }}
+              </p>
+              <p class="mt-1 text-xs text-gray-500 dark:text-dark-400">
+                {{ t('profile.currentStreak', { days: checkinStatus?.consecutive_days || 0 }) }}
+              </p>
+              <p
+                v-if="checkinStatus?.checked_in_at"
+                class="mt-1 text-xs text-gray-400 dark:text-dark-500"
+              >
+                {{ t('profile.checkedInAt') }}:
+                {{
+                  formatDate(checkinStatus.checked_in_at, {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                  })
+                }}
+              </p>
+            </div>
+            <button
+              class="btn"
+              :class="checkinStatus?.checked_in ? 'btn-secondary' : 'btn-primary'"
+              :disabled="checkingIn || !!checkinStatus?.checked_in"
+              @click="handleCheckin"
             >
-              {{ t('profile.checkedInAt') }}:
               {{
-                formatDate(checkinStatus.checked_in_at, {
-                  year: 'numeric',
-                  month: 'short',
-                  day: 'numeric',
-                  hour: '2-digit',
-                  minute: '2-digit'
-                })
+                checkingIn
+                  ? t('profile.checkingIn')
+                  : checkinStatus?.checked_in
+                    ? t('profile.alreadyCheckedIn')
+                    : t('profile.checkinNow')
               }}
-            </p>
+            </button>
           </div>
-          <button
-            class="btn"
-            :class="checkinStatus?.checked_in ? 'btn-secondary' : 'btn-primary'"
-            :disabled="checkingIn || !!checkinStatus?.checked_in"
-            @click="handleCheckin"
-          >
-            {{
-              checkingIn
-                ? t('profile.checkingIn')
-                : checkinStatus?.checked_in
-                  ? t('profile.alreadyCheckedIn')
-                  : t('profile.checkinNow')
-            }}
-          </button>
+
+          <div class="flex flex-wrap items-center gap-3 text-xs text-gray-500 dark:text-dark-400">
+            <span>{{ t('profile.baseReward', { amount: formatCurrency(checkinStatus?.base_reward_amount || 0) }) }}</span>
+            <span>{{ t('profile.nextReward', { amount: formatCurrency(checkinStatus?.next_reward_amount || 0) }) }}</span>
+            <router-link to="/checkin-history" class="text-primary-600 hover:underline dark:text-primary-400">
+              {{ t('profile.viewCheckinHistory') }}
+            </router-link>
+          </div>
         </div>
       </div>
 

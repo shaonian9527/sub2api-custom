@@ -59,6 +59,7 @@ type SystemSettings struct {
 
 	DefaultConcurrency   int                          `json:"default_concurrency"`
 	DefaultBalance       float64                      `json:"default_balance"`
+	DailyCheckinEnabled  bool                         `json:"daily_checkin_enabled"`
 	DailyCheckinReward   float64                      `json:"daily_checkin_reward"`
 	DefaultSubscriptions []DefaultSubscriptionSetting `json:"default_subscriptions"`
 

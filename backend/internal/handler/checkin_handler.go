@@ -53,3 +53,27 @@ func (h *CheckinHandler) Checkin(c *gin.Context) {
 
 	response.Success(c, result)
 }
+
+// GetHistory returns user's check-in history.
+// GET /api/v1/user/checkin/history
+func (h *CheckinHandler) GetHistory(c *gin.Context) {
+	subject, ok := middleware2.GetAuthSubjectFromContext(c)
+	if !ok {
+		response.Unauthorized(c, "User not authenticated")
+		return
+	}
+
+	page, pageSize := response.ParsePagination(c)
+	items, result, err := h.redeemService.GetCheckinHistory(c.Request.Context(), subject.UserID, page, pageSize)
+	if err != nil {
+		response.ErrorFrom(c, err)
+		return
+	}
+
+	response.PaginatedWithResult(c, items, &response.PaginationResult{
+		Total:    result.Total,
+		Page:     result.Page,
+		PageSize: result.PageSize,
+		Pages:    result.Pages,
+	})
+}

@@ -46,6 +46,7 @@ type SystemSettings struct {
 
 	DefaultConcurrency   int
 	DefaultBalance       float64
+	DailyCheckinEnabled  bool
 	DailyCheckinReward   float64
 	DefaultSubscriptions []DefaultSubscriptionSetting
 

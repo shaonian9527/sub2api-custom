@@ -178,6 +178,16 @@ const routes: RouteRecordRaw[] = [
     }
   },
   {
+    path: '/checkin-history',
+    name: 'CheckinHistory',
+    component: () => import('@/views/user/CheckinHistoryView.vue'),
+    meta: {
+      requiresAuth: true,
+      requiresAdmin: false,
+      title: 'Check-in History'
+    }
+  },
+  {
     path: '/subscriptions',
     name: 'Subscriptions',
     component: () => import('@/views/user/SubscriptionsView.vue'),

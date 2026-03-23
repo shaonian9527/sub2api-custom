@@ -458,6 +458,7 @@ func (s *SettingService) UpdateSettings(ctx context.Context, settings *SystemSet
 	// 默认配置
 	updates[SettingKeyDefaultConcurrency] = strconv.Itoa(settings.DefaultConcurrency)
 	updates[SettingKeyDefaultBalance] = strconv.FormatFloat(settings.DefaultBalance, 'f', 8, 64)
+	updates[SettingKeyDailyCheckinEnabled] = strconv.FormatBool(settings.DailyCheckinEnabled)
 	updates[SettingKeyDailyCheckinReward] = strconv.FormatFloat(settings.DailyCheckinReward, 'f', 8, 64)
 	defaultSubsJSON, err := json.Marshal(settings.DefaultSubscriptions)
 	if err != nil {
@@ -708,6 +709,15 @@ func (s *SettingService) GetDefaultBalance(ctx context.Context) float64 {
 	return s.cfg.Default.UserBalance
 }
 
+// IsDailyCheckinEnabled 检查是否启用每日签到
+func (s *SettingService) IsDailyCheckinEnabled(ctx context.Context) bool {
+	value, err := s.settingRepo.GetValue(ctx, SettingKeyDailyCheckinEnabled)
+	if err != nil {
+		return true
+	}
+	return value != "false"
+}
+
 // GetDailyCheckinReward 获取每日签到奖励金额
 func (s *SettingService) GetDailyCheckinReward(ctx context.Context) float64 {
 	value, err := s.settingRepo.GetValue(ctx, SettingKeyDailyCheckinReward)
@@ -755,6 +765,7 @@ func (s *SettingService) InitializeDefaultSettings(ctx context.Context) error {
 		SettingKeyCustomMenuItems:                  "[]",
 		SettingKeyDefaultConcurrency:               strconv.Itoa(s.cfg.Default.UserConcurrency),
 		SettingKeyDefaultBalance:                   strconv.FormatFloat(s.cfg.Default.UserBalance, 'f', 8, 64),
+		SettingKeyDailyCheckinEnabled:              "true",
 		SettingKeyDailyCheckinReward:               strconv.FormatFloat(DailyCheckinReward, 'f', 8, 64),
 		SettingKeyDefaultSubscriptions:             "[]",
 		SettingKeySMTPPort:                         "587",
@@ -841,6 +852,7 @@ func (s *SettingService) parseSettings(settings map[string]string) *SystemSettin
 	} else {
 		result.DefaultBalance = s.cfg.Default.UserBalance
 	}
+	result.DailyCheckinEnabled = settings[SettingKeyDailyCheckinEnabled] != "false"
 	if reward, err := strconv.ParseFloat(settings[SettingKeyDailyCheckinReward], 64); err == nil && reward >= 0 {
 		result.DailyCheckinReward = reward
 	} else {

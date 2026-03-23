@@ -121,10 +121,11 @@ const (
 	SettingKeyCustomMenuItems             = "custom_menu_items"             // 自定义菜单项（JSON 数组）
 
 	// 默认配置
-	SettingKeyDefaultConcurrency   = "default_concurrency"   // 新用户默认并发量
-	SettingKeyDefaultBalance       = "default_balance"       // 新用户默认余额
-	SettingKeyDailyCheckinReward   = "daily_checkin_reward"  // 每日签到奖励金额
-	SettingKeyDefaultSubscriptions = "default_subscriptions" // 新用户默认订阅列表（JSON）
+	SettingKeyDefaultConcurrency   = "default_concurrency"    // 新用户默认并发量
+	SettingKeyDefaultBalance       = "default_balance"        // 新用户默认余额
+	SettingKeyDailyCheckinEnabled  = "daily_checkin_enabled"  // 是否启用每日签到
+	SettingKeyDailyCheckinReward   = "daily_checkin_reward"   // 每日签到基础奖励金额
+	SettingKeyDefaultSubscriptions = "default_subscriptions"  // 新用户默认订阅列表（JSON）
 
 	// 管理员 API Key
 	SettingKeyAdminAPIKey = "admin_api_key" // 全局管理员 API Key（用于外部系统集成）
